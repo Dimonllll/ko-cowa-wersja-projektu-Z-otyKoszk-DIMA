@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZłotyKoszyk Dmytro Zhmurko zaprasza do sklepu</title>
+    <link rel="stylesheet" href="d.css">
+</head>
+<body>
+    <header class="site-header animate-on-load">
+        <div class="container header-row">
+            <div class="logo">
+                <a href="#">Dima<span class="logo-dot">.</span>shop</a>
+            </div>
+            <form class="search-form js-search-form" action="#" method="get">
+                <input type="text" class="js-search-input" placeholder="Szukaj produktów..." aria-label="Szukaj">
+                <button type="submit" class="js-search-btn" title="Szukaj">🔍 Szukaj</button>
+            </form>
+            <div class="user-actions">
+                <a href="#" class="js-login" id="loginBtn" title="Zaloguj">👤 Zaloguj</a>
+                <a href="#cartSection" class="cart-icon js-cart-icon" title="Koszyk">
+                    🛒 Koszyk
+                    <span class="cart-count js-cart-count">0</span>
+                </a>
+                <button class="favorites-toggle-btn" id="favoritesToggleBtn" title="Ulubione">❤️ Ulubione</button>
+                <a href="#" class="theme-toggle js-theme-toggle" id="theme-toggle" title="Zmień motyw">🌙</a>
+                <button id="cyberModeBtn" class="cyber-mode-toggle" title="Cyber Mode">💠 Cyber Mode</button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="category-nav animate-on-load">
+        <div class="container">
+            <ul class="category-list">
+                <li><a href="#" class="active js-category-filter" data-category="all">Wszystkie</a></li>
+                <li><a href="#" class="js-category-filter" data-category="fashion">Moda</a></li>
+                <li><a href="#" class="js-category-filter" data-category="electronics">Elektronika</a></li>
+                <li><a href="#" class="js-category-filter" data-category="beauty">Uroda</a></li>
+                <li><a href="#" class="js-category-filter" data-category="jewellery">Biżuteria</a></li>
+                <li><a href="#" class="js-category-filter" data-category="home">Dom</a></li>
+                <li><a href="#" class="js-category-filter" data-category="sport">Sport</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero-full animate-on-load">
+        <div class="hero-full-bg"></div>
+    </section>
+
+    <main class="container">
+        <h2 class="section-title animate-on-load">Kategorie</h2>
+        <div class="category-grid">
+            <div class="cat-item js-category-filter animate-on-load" data-category="fashion">👗 Moda</div>
+            <div class="cat-item js-category-filter animate-on-load" data-category="electronics">⌚ Elektronika</div>
+            <div class="cat-item js-category-filter animate-on-load" data-category="beauty">💄 Uroda</div>
+            <div class="cat-item js-category-filter animate-on-load" data-category="jewellery">💍 Biżuteria</div>
+            <div class="cat-item js-category-filter animate-on-load" data-category="home">🛋️ Dom</div>
+            <div class="cat-item js-category-filter animate-on-load" data-category="sport">⚽ Sport</div>
+        </div>
+
+        <h2 class="section-title animate-on-load">Bestsellery</h2>
+        <div class="products-grid" id="productsGrid"></div>
+
+        <div class="promo-banner animate-on-load">
+            <div>
+                <h2>Rabat na pierwsze zakupy</h2>
+                <p>Wpisz kod: GLASS15 i zgarnij 15% zniżki</p>
+            </div>
+            <div class="promo-code">GLASS15</div>
+        </div>
+
+        <section class="cart-section" id="cartSection">
+            <h2 class="cart-title">🛒 Twój koszyk</h2>
+            <div class="cart-items" id="cartItemsContainer">
+                <div class="cart-empty">Koszyk jest pusty. Dodaj produkty.</div>
+            </div>
+            <div class="cart-total" id="cartTotal">Łącznie: 0 zł</div>
+        </section>
+
+        <section class="payment-section animate-on-load">
+            <h2 class="payment-title">💳 Wybierz metodę płatności</h2>
+            <div class="payment-options">
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="card" checked> Karta kredytowa
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="transfer"> Przelew internetowy
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="blik"> BLIK
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="paypal"> PayPal
+                </label>
+            </div>
+
+            <div class="payment-details-container">
+                <div class="payment-detail" id="detail-card">
+                    <input type="text" placeholder="Numer karty" id="cardNumber" maxlength="19">
+                    <input type="text" placeholder="MM/RR" id="cardExpiry" maxlength="5">
+                    <input type="text" placeholder="CVV" id="cardCvv" maxlength="3">
+                </div>
+                <div class="payment-detail" id="detail-blik">
+                    <input type="text" placeholder="Kod BLIK (6 cyfr)" id="blikCode" maxlength="6">
+                </div>
+                <div class="payment-detail" id="detail-transfer">
+                    <p>Przelew na konto: 12 3456 7890 1234 5678 9012 3456</p>
+                </div>
+                <div class="payment-detail" id="detail-paypal">
+                    <p>Po kliknięciu Zapłać nastąpi przekierowanie do PayPal.</p>
+                </div>
+            </div>
+
+            <button class="pay-button js-pay-button">Zapłać</button>
+        </section>
+    </main>
+
+    <footer class="site-footer animate-on-load">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h4 style="color:var(--yellow-bright);">GLASS.shop</h4>
+                <p>Twój szklany sklep z charakterem.</p>
+            </div>
+            <div class="footer-col">
+                <h4 style="color:var(--yellow-bright);">Pomoc</h4>
+                <ul>
+                    <li><a href="#">Kontakt</a></li>
+                    <li><a href="#">Zwroty</a></li>
+                    <li><a href="#">Regulamin</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 style="color:var(--yellow-bright);">Obserwuj nas</h4>
+                <ul>
+                    <li><a href="#">📷 Instagram</a></li>
+                    <li><a href="#">📘 Facebook</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container copyright">
+            Stronę wykonali: <strong>Dmytro Zhmurko (Lider ta Dyrektor projektu), Michał, Artem i Zofia</strong> © 2026
+        </div>
+    </footer>
+
+    <div class="favorites-sidebar" id="favoritesSidebar">
+        <div class="favorites-sidebar-header">
+            <h3>❤️ Moje ulubione</h3>
+            <button class="favorites-sidebar-close" id="favoritesSidebarClose">&times;</button>
+        </div>
+        <div class="favorites-sidebar-content" id="favoritesSidebarContent">
+            <div class="favorites-empty">Nie masz jeszcze ulubionych produktów. Kliknij serduszko przy produkcie.</div>
+        </div>
+    </div>
+    <div class="favorites-overlay" id="favoritesOverlay"></div>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="modal-close" id="closeModal">&times;</span>
+            <h2>Logowanie</h2>
+            <form id="loginForm">
+                <input type="text" id="loginUsername" placeholder="Login" required>
+                <input type="password" id="loginPassword" placeholder="Hasło" required>
+                <button type="submit">Zaloguj</button>
+                <p class="error-message" id="loginError"></p>
+                <p style="text-align:center; margin-top:15px;">Nie masz konta? <a href="#" id="registerLink">Zarejestruj się</a></p>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="z.js"></script>
+</body>
+</html>
