@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZłotyKoszyk Dmytro Zhmurko zaprasza do sklepu</title>
+    <title>ZłotyKoszyk</title>
     <link rel="stylesheet" href="d.css">
 </head>
 <body>
     <header class="site-header animate-on-load">
         <div class="container header-row">
             <div class="logo">
-                <a href="#">ZłotyKoszyk<span class="logo-dot">.</span>sklep</a>
+                <a href="#">Złoty<span class="logo-dot"></span>Koszyk</a>
             </div>
             <form class="search-form js-search-form" action="#" method="get">
                 <input type="text" class="js-search-input" placeholder="Szukaj produktów..." aria-label="Szukaj">
@@ -25,6 +25,7 @@
                 <button class="favorites-toggle-btn" id="favoritesToggleBtn" title="Ulubione">❤️ Ulubione</button>
                 <a href="#" class="theme-toggle js-theme-toggle" id="theme-toggle" title="Zmień motyw">🌙</a>
                 <button id="cyberModeBtn" class="cyber-mode-toggle" title="Cyber Mode">💠 Cyber Mode</button>
+                <button id="adminBtn" class="admin-mode-toggle" title="Admin Panel">🔧 Admin</button>
             </div>
         </div>
     </header>
@@ -138,7 +139,7 @@
             </div>
         </div>
         <div class="container copyright">
-            Stronę wykonali: <strong>Dmytro Zhmurko (Lider ta Dyrektor projektu), Michał, Artem i Zofia</strong> 😊 2026
+            Stronę wykonali: <strong>Dmytro Zhmurko (lider), Michał, Artem i Zofia</strong> © 2025
         </div>
     </footer>
 
@@ -166,6 +167,38 @@
             </form>
         </div>
     </div>
+
+    <div id="adminModal" class="admin-modal">
+        <div class="admin-modal-content">
+            <span class="admin-modal-close" id="adminModalClose">&times;</span>
+            <h2>🔧 Panel administratora</h2>
+            <div class="admin-section">
+                <h3>➕ Dodaj nowy produkt</h3>
+                <div class="admin-form">
+                    <input type="text" id="adminTitle" placeholder="Nazwa produktu" required>
+                    <input type="number" id="adminPrice" placeholder="Cena" step="0.01" required>
+                    <select id="adminCategory">
+                        <option value="fashion">Moda</option>
+                        <option value="electronics">Elektronika</option>
+                        <option value="beauty">Uroda</option>
+                        <option value="jewellery">Biżuteria</option>
+                        <option value="home">Dom</option>
+                        <option value="sport">Sport</option>
+                    </select>
+                    <input type="text" id="adminImg" placeholder="Nazwa pliku zdjęcia (np. nowy.jpg)" required>
+                    <button id="adminAddBtn">➕ Dodaj produkt</button>
+                </div>
+            </div>
+            <div class="admin-section">
+                <h3>📦 Lista produktów</h3>
+                <div id="adminProductsList" class="admin-products-list"></div>
+            </div>
+            <div class="admin-section">
+                <button id="adminCloseBtn" class="admin-close-btn">Zamknij panel</button>
+            </div>
+        </div>
+    </div>
+    <div id="adminOverlay" class="admin-overlay"></div>
 
     <div class="toast-container" id="toastContainer"></div>
 
