@@ -47,7 +47,6 @@ body {
     padding: 0 24px;
 }
 
-/* HEADER (reszta bez zmian - tylko kluczowe style dla paneli) */
 .site-header {
     background: rgba(90, 24, 154, 0.2);
     backdrop-filter: blur(12px);
@@ -472,37 +471,93 @@ body {
     color: var(--purple-deep);
 }
 
-.promo-banner {
+.cart-section {
     background: var(--glass-bg);
     backdrop-filter: blur(12px);
     border-radius: 40px;
-    padding: 40px 50px;
+    padding: 30px;
     margin: 50px 0;
+    border: 2px solid var(--yellow-bright);
+    box-shadow: 0 0 30px var(--glass-shadow);
+    transition: box-shadow 0.3s ease;
+}
+.cart-section:hover {
+    box-shadow: 0 0 40px var(--yellow-bright);
+}
+.cart-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: var(--yellow-bright);
+}
+.cart-items {
+    list-style: none;
+    margin-bottom: 20px;
+}
+.cart-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 30px;
-    color: var(--text-light);
-    border: 2px solid var(--yellow-bright);
-    box-shadow: 0 0 30px var(--glass-shadow);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--glass-border);
 }
-.promo-banner:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px var(--yellow-bright);
+.cart-item-info {
+    flex: 2;
 }
-.promo-banner h2 {
-    font-size: 32px;
+.cart-item-title {
+    font-weight: 600;
 }
-.promo-banner .promo-code {
+.cart-item-price {
+    color: var(--yellow-bright);
+    font-weight: 500;
+}
+.cart-item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.cart-qty-btn {
+    background: var(--purple-deep);
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    border: 1px solid var(--yellow-bright);
+}
+.cart-qty-btn:hover {
     background: var(--yellow-bright);
-    padding: 12px 32px;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 24px;
-    letter-spacing: 3px;
     color: var(--purple-deep);
+}
+.cart-item-remove {
+    background: none;
+    border: 2px solid var(--yellow-bright);
+    color: var(--text-light);
+    padding: 5px 12px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-left: 15px;
+}
+.cart-item-remove:hover {
+    background: var(--yellow-bright);
+    color: var(--purple-deep);
+}
+.cart-total {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: right;
+    margin-top: 20px;
+    color: var(--text-light);
+}
+.cart-empty {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 18px;
+    padding: 30px;
 }
 
 .payment-section {
@@ -703,8 +758,8 @@ body {
 
 .product-card,
 .cat-item,
+.cart-section,
 .payment-section,
-.promo-banner,
 .modal-content,
 .toast {
     backdrop-filter: blur(16px);
@@ -715,8 +770,7 @@ body {
 }
 
 .product-card:hover,
-.cat-item:hover,
-.promo-banner:hover {
+.cat-item:hover {
     backdrop-filter: blur(20px);
     background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 20px 40px var(--glass-shadow), 0 0 25px var(--yellow-bright);
@@ -799,7 +853,6 @@ body.cyber-mode .cat-item:hover {
     box-shadow: 0 0 20px #ff00cc;
 }
 
-/* PANELE BOCZNE: KOSZYK I ULUBIONE */
 .cart-sidebar, .favorites-sidebar {
     position: fixed;
     top: 0;
@@ -948,7 +1001,6 @@ body.cyber-mode .cat-item:hover {
     transition: background 0.3s ease;
 }
 
-/* ADMIN MODAL (bez zmian) */
 .admin-modal {
     display: none;
     position: fixed;
