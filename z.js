@@ -666,4 +666,14 @@
         renderCartSidebar();
         renderFavoritesSidebar();
         updatePaymentDetails();
+        startScrollAnimations();
+        updateCartCountDisplay();
+        document.querySelectorAll('.js-fav-btn').forEach(btn => {
+            const id = Number(btn.dataset.id);
+            if (favorites.includes(id)) btn.classList.add('active');
+            else btn.classList.remove('active');
+        });
+    }
+    init();
+})();
        
