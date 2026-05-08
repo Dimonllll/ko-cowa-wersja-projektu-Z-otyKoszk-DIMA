@@ -18,10 +18,7 @@
             </form>
             <div class="user-actions">
                 <a href="#" class="js-login" id="loginBtn" title="Zaloguj">👤 Zaloguj</a>
-                <a href="#cartSection" class="cart-icon js-cart-icon" title="Koszyk">
-                    🛒 Koszyk
-                    <span class="cart-count js-cart-count">0</span>
-                </a>
+                <button class="cart-sidebar-toggle" id="cartSidebarToggleBtn" title="Koszyk">🛒 Koszyk</button>
                 <button class="favorites-toggle-btn" id="favoritesToggleBtn" title="Ulubione">❤️ Ulubione</button>
                 <a href="#" class="theme-toggle js-theme-toggle" id="theme-toggle" title="Zmień motyw">🌙</a>
                 <button id="cyberModeBtn" class="cyber-mode-toggle" title="Cyber Mode">💠 Cyber Mode</button>
@@ -69,14 +66,6 @@
             </div>
             <div class="promo-code">GLASS15</div>
         </div>
-
-        <section class="cart-section" id="cartSection">
-            <h2 class="cart-title">🛒 Twój koszyk</h2>
-            <div class="cart-items" id="cartItemsContainer">
-                <div class="cart-empty">Koszyk jest pusty. Dodaj produkty.</div>
-            </div>
-            <div class="cart-total" id="cartTotal">Łącznie: 0 zł</div>
-        </section>
 
         <section class="payment-section animate-on-load">
             <h2 class="payment-title">💳 Wybierz metodę płatności</h2>
@@ -143,6 +132,19 @@
         </div>
     </footer>
 
+    <!-- Panel boczny koszyka -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-sidebar-header">
+            <h3>🛒 Twój koszyk</h3>
+            <button class="cart-sidebar-close" id="cartSidebarClose">&times;</button>
+        </div>
+        <div class="cart-sidebar-content" id="cartSidebarContent">
+            <div class="cart-empty">Koszyk jest pusty. Dodaj produkty.</div>
+        </div>
+    </div>
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <!-- Panel boczny ulubionych -->
     <div class="favorites-sidebar" id="favoritesSidebar">
         <div class="favorites-sidebar-header">
             <h3>❤️ Moje ulubione</h3>
@@ -154,20 +156,7 @@
     </div>
     <div class="favorites-overlay" id="favoritesOverlay"></div>
 
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <span class="modal-close" id="closeModal">&times;</span>
-            <h2>Logowanie</h2>
-            <form id="loginForm">
-                <input type="text" id="loginUsername" placeholder="Login" required>
-                <input type="password" id="loginPassword" placeholder="Hasło" required>
-                <button type="submit">Zaloguj</button>
-                <p class="error-message" id="loginError"></p>
-                <p style="text-align:center; margin-top:15px;">Nie masz konta? <a href="#" id="registerLink">Zarejestruj się</a></p>
-            </form>
-        </div>
-    </div>
-
+    <!-- Modal admina -->
     <div id="adminModal" class="admin-modal">
         <div class="admin-modal-content">
             <span class="admin-modal-close" id="adminModalClose">&times;</span>
@@ -199,6 +188,20 @@
         </div>
     </div>
     <div id="adminOverlay" class="admin-overlay"></div>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="modal-close" id="closeModal">&times;</span>
+            <h2>Logowanie</h2>
+            <form id="loginForm">
+                <input type="text" id="loginUsername" placeholder="Login" required>
+                <input type="password" id="loginPassword" placeholder="Hasło" required>
+                <button type="submit">Zaloguj</button>
+                <p class="error-message" id="loginError"></p>
+                <p style="text-align:center; margin-top:15px;">Nie masz konta? <a href="#" id="registerLink">Zarejestruj się</a></p>
+            </form>
+        </div>
+    </div>
 
     <div class="toast-container" id="toastContainer"></div>
 
