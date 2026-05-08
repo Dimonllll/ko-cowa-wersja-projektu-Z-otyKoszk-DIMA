@@ -1,3 +1,4 @@
+//dima szlifować lol 67
 (function() {
     let productsData = [
         { id: 101, title: 'buty damskie', price: 1499, category: 'fashion', img: '1.jpg' },
@@ -70,7 +71,6 @@
     const loginForm = document.getElementById('loginForm');
     const loginError = document.getElementById('loginError');
     const registerLink = document.getElementById('registerLink');
-    const cartIcon = document.querySelector('.js-cart-icon');
     const toastContainer = document.getElementById('toastContainer');
 
     const paymentRadios = document.querySelectorAll('input[name="payment"]');
@@ -108,7 +108,7 @@
     const adminProductsList = document.getElementById('adminProductsList');
     let editingProductId = null;
 
-    // Inteligentne formatowanie pól karty
+    // Inteligentne formatowanie pól karty (tylko cyfry, automatyczne odstępy)
     function formatCardNumber(input) {
         let value = input.value.replace(/\D/g, '').substring(0, 16);
         let formatted = '';
@@ -134,12 +134,22 @@
         return /^\d{16}$/.test(digits);
     }
     function validateCardExpiry(value) {
-        return /^\d{2}\/\d{2}$/.test(value);
+        if (!/^\d{2}\/\d{2}$/.test(value)) return false;
+        const [month, year] = value.split('/');
+        const now = new Date();
+        const currentYear = now.getFullYear() % 100;
+        const currentMonth = now.getMonth() + 1;
+        const expYear = parseInt(year, 10);
+        const expMonth = parseInt(month, 10);
+        if (expYear < currentYear) return false;
+        if (expYear === currentYear && expMonth < currentMonth) return false;
+        return true;
     }
     function validateCardCvv(value) {
         return /^\d{3}$/.test(value);
     }
 
+    // Dodanie nasłuchiwania zdarzeń dla pól karty
     cardNumber.addEventListener('input', function() { formatCardNumber(cardNumber); });
     cardExpiry.addEventListener('input', function() { formatCardExpiry(cardExpiry); });
     cardCvv.addEventListener('input', function() { formatCardCvv(cardCvv); });
@@ -574,7 +584,6 @@
     window.addEventListener('click', (e) => { if (e.target === loginModal) loginModal.classList.remove('active'); });
     if (loginForm) loginForm.addEventListener('submit', (e) => { e.preventDefault(); showToast('Zalogowano pomyślnie (demo)'); loginModal.classList.remove('active'); loginError.textContent = ''; });
     if (registerLink) registerLink.addEventListener('click', (e) => { e.preventDefault(); showToast('Rejestracja demo – konto utworzone'); });
-    if (cartIcon) cartIcon.addEventListener('click', (e) => { e.preventDefault(); smoothScroll('#cartSection'); });
 
     categoryFilters.forEach(filter => {
         filter.addEventListener('click', (e) => {
