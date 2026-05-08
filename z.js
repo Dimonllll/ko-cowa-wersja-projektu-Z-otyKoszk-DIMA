@@ -1,4 +1,4 @@
-//dima szlifować lol 67
+// dmytro
 (function() {
     let productsData = [
         { id: 101, title: 'buty damskie', price: 1499, category: 'fashion', img: '1.jpg' },
@@ -88,7 +88,6 @@
     const cartSidebarToggleBtn = document.getElementById('cartSidebarToggleBtn');
     const cartSidebarClose = document.getElementById('cartSidebarClose');
     const cartOverlay = document.getElementById('cartOverlay');
-
     const favoritesSidebar = document.getElementById('favoritesSidebar');
     const favoritesSidebarContent = document.getElementById('favoritesSidebarContent');
     const favoritesToggleBtn = document.getElementById('favoritesToggleBtn');
@@ -108,7 +107,36 @@
     const adminProductsList = document.getElementById('adminProductsList');
     let editingProductId = null;
 
-    // Inteligentne formatowanie pól karty (tylko cyfry, automatyczne odstępy)
+    function showToast(message) {
+        if (!toastContainer) return;
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        toastContainer.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+
+    function smoothScroll(targetSelector) {
+        const target = document.querySelector(targetSelector);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function updateCartCountDisplay() {
+        const totalItems = Object.values(cart).reduce((acc, item) => acc + item.quantity, 0);
+        if (cartCountSpan) cartCountSpan.textContent = totalItems;
+    }
+
+    function saveProducts() { localStorage.setItem('products', JSON.stringify(productsData)); }
+    function loadProductsFromStorage() {
+        const saved = localStorage.getItem('products');
+        if (saved && JSON.parse(saved).length > 0) productsData = JSON.parse(saved);
+        else saveProducts();
+    }
+    function saveCart() { localStorage.setItem('cart', JSON.stringify(cart)); }
+    function loadCart() { const saved = localStorage.getItem('cart'); if (saved) cart = JSON.parse(saved); }
+    function saveFavorites() { localStorage.setItem('favorites', JSON.stringify(favorites)); }
+    function loadFavorites() { const saved = localStorage.getItem('favorites'); if (saved) favorites = JSON.parse(saved); }
+
     function formatCardNumber(input) {
         let value = input.value.replace(/\D/g, '').substring(0, 16);
         let formatted = '';
@@ -149,40 +177,12 @@
         return /^\d{3}$/.test(value);
     }
 
-    // Dodanie nasłuchiwania zdarzeń dla pól karty
     cardNumber.addEventListener('input', function() { formatCardNumber(cardNumber); });
     cardExpiry.addEventListener('input', function() { formatCardExpiry(cardExpiry); });
     cardCvv.addEventListener('input', function() { formatCardCvv(cardCvv); });
-
-    function showToast(message) {
-        if (!toastContainer) return;
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.textContent = message;
-        toastContainer.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
-    }
-
-    function smoothScroll(targetSelector) {
-        const target = document.querySelector(targetSelector);
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    function updateCartCountDisplay() {
-        const totalItems = Object.values(cart).reduce((acc, item) => acc + item.quantity, 0);
-        if (cartCountSpan) cartCountSpan.textContent = totalItems;
-    }
-
-    function saveProducts() { localStorage.setItem('products', JSON.stringify(productsData)); }
-    function loadProductsFromStorage() {
-        const saved = localStorage.getItem('products');
-        if (saved && JSON.parse(saved).length > 0) productsData = JSON.parse(saved);
-        else saveProducts();
-    }
-    function saveCart() { localStorage.setItem('cart', JSON.stringify(cart)); }
-    function loadCart() { const saved = localStorage.getItem('cart'); if (saved) cart = JSON.parse(saved); }
-    function saveFavorites() { localStorage.setItem('favorites', JSON.stringify(favorites)); }
-    function loadFavorites() { const saved = localStorage.getItem('favorites'); if (saved) favorites = JSON.parse(saved); }
+    blikCode.addEventListener('input', function() {
+        this.value = this.value.replace(/\D/g, '').substring(0, 6);
+    });
 
     function renderCartSidebar() {
         if (!cartSidebarContent) return;
@@ -560,7 +560,8 @@
                 valid = false;
             }
         } else if (selected === 'blik') {
-            if (!/^\d{6}$/.test(blikCode.value)) {
+            const code = blikCode.value;
+            if (!/^\d{6}$/.test(code)) {
                 showToast('Kod BLIK musi składać się z 6 cyfr');
                 valid = false;
             }
@@ -578,12 +579,43 @@
     }
     if (payButton) payButton.addEventListener('click', handlePayment);
 
-    if (themeToggle) themeToggle.addEventListener('click', (e) => { e.preventDefault(); body.classList.toggle('light-theme'); themeToggle.textContent = body.classList.contains('light-theme') ? '☀️' : '🌙'; });
-    if (loginBtn) loginBtn.addEventListener('click', (e) => { e.preventDefault(); loginModal.classList.add('active'); });
-    if (closeModal) closeModal.addEventListener('click', () => { loginModal.classList.remove('active'); loginError.textContent = ''; });
-    window.addEventListener('click', (e) => { if (e.target === loginModal) loginModal.classList.remove('active'); });
-    if (loginForm) loginForm.addEventListener('submit', (e) => { e.preventDefault(); showToast('Zalogowano pomyślnie (demo)'); loginModal.classList.remove('active'); loginError.textContent = ''; });
-    if (registerLink) registerLink.addEventListener('click', (e) => { e.preventDefault(); showToast('Rejestracja demo – konto utworzone'); });
+    if (themeToggle) {
+        themeToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            body.classList.toggle('light-theme');
+            themeToggle.textContent = body.classList.contains('light-theme') ? '☀️' : '🌙';
+        });
+    }
+
+    if (loginBtn) {
+        loginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.classList.add('active');
+        });
+    }
+    if (closeModal) {
+        closeModal.addEventListener('click', () => {
+            loginModal.classList.remove('active');
+            loginError.textContent = '';
+        });
+    }
+    window.addEventListener('click', (e) => {
+        if (e.target === loginModal) loginModal.classList.remove('active');
+    });
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            showToast('Zalogowano pomyślnie (demo)');
+            loginModal.classList.remove('active');
+            loginError.textContent = '';
+        });
+    }
+    if (registerLink) {
+        registerLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showToast('Rejestracja demo – konto utworzone');
+        });
+    }
 
     categoryFilters.forEach(filter => {
         filter.addEventListener('click', (e) => {
@@ -599,16 +631,28 @@
     const cyberModeBtn = document.getElementById('cyberModeBtn');
     let cyberModeActive = localStorage.getItem('cyberMode') === 'true';
     function setCyberMode(active) {
-        if (active) { document.body.classList.add('cyber-mode'); if (cyberModeBtn) cyberModeBtn.innerHTML = '⚡ Cyber Mode ON'; }
-        else { document.body.classList.remove('cyber-mode'); if (cyberModeBtn) cyberModeBtn.innerHTML = '💠 Cyber Mode'; }
+        if (active) {
+            body.classList.add('cyber-mode');
+            if (cyberModeBtn) cyberModeBtn.innerHTML = '⚡ Cyber Mode ON';
+        } else {
+            body.classList.remove('cyber-mode');
+            if (cyberModeBtn) cyberModeBtn.innerHTML = '💠 Cyber Mode';
+        }
         localStorage.setItem('cyberMode', active);
     }
-    if (cyberModeBtn) cyberModeBtn.addEventListener('click', () => setCyberMode(!cyberModeActive));
+    if (cyberModeBtn) {
+        cyberModeBtn.addEventListener('click', () => setCyberMode(!cyberModeActive));
+    }
     setCyberMode(cyberModeActive);
 
     function startScrollAnimations() {
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
         }, { threshold: 0.2 });
         document.querySelectorAll('.animate-on-load, .product-card, .cat-item').forEach(el => observer.observe(el));
     }
@@ -622,9 +666,4 @@
         renderCartSidebar();
         renderFavoritesSidebar();
         updatePaymentDetails();
-        startScrollAnimations();
-        updateCartCountDisplay();
-        document.querySelectorAll('.js-fav-btn').forEach(btn => { const id = Number(btn.dataset.id); if (favorites.includes(id)) btn.classList.add('active'); else btn.classList.remove('active'); });
-    }
-    init();
-})();
+       
