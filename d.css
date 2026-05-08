@@ -47,6 +47,7 @@ body {
     padding: 0 24px;
 }
 
+/* HEADER (reszta bez zmian - tylko kluczowe style dla paneli) */
 .site-header {
     background: rgba(90, 24, 154, 0.2);
     backdrop-filter: blur(12px);
@@ -195,7 +196,7 @@ body {
     color: var(--purple-deep);
 }
 
-.cyber-mode-toggle {
+.cyber-mode-toggle, .admin-mode-toggle {
     background: var(--glass-bg);
     backdrop-filter: blur(8px);
     border: 2px solid var(--yellow-bright);
@@ -210,28 +211,7 @@ body {
     align-items: center;
     gap: 5px;
 }
-.cyber-mode-toggle:hover {
-    background: var(--yellow-bright);
-    color: var(--purple-deep);
-    transform: scale(1.02);
-}
-
-.admin-mode-toggle {
-    background: var(--glass-bg);
-    backdrop-filter: blur(8px);
-    border: 2px solid var(--yellow-bright);
-    border-radius: 50px;
-    padding: 6px 16px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-light);
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-}
-.admin-mode-toggle:hover {
+.cyber-mode-toggle:hover, .admin-mode-toggle:hover {
     background: var(--yellow-bright);
     color: var(--purple-deep);
     transform: scale(1.02);
@@ -525,95 +505,6 @@ body {
     color: var(--purple-deep);
 }
 
-.cart-section {
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    border-radius: 40px;
-    padding: 30px;
-    margin: 50px 0;
-    border: 2px solid var(--yellow-bright);
-    box-shadow: 0 0 30px var(--glass-shadow);
-    transition: box-shadow 0.3s ease;
-}
-.cart-section:hover {
-    box-shadow: 0 0 40px var(--yellow-bright);
-}
-.cart-title {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: var(--yellow-bright);
-}
-.cart-items {
-    list-style: none;
-    margin-bottom: 20px;
-}
-.cart-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px 0;
-    border-bottom: 1px solid var(--glass-border);
-}
-.cart-item-info {
-    flex: 2;
-}
-.cart-item-title {
-    font-weight: 600;
-}
-.cart-item-price {
-    color: var(--yellow-bright);
-    font-weight: 500;
-}
-.cart-item-quantity {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.cart-qty-btn {
-    background: var(--purple-deep);
-    color: white;
-    border: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-    border: 1px solid var(--yellow-bright);
-}
-.cart-qty-btn:hover {
-    background: var(--yellow-bright);
-    color: var(--purple-deep);
-}
-.cart-item-remove {
-    background: none;
-    border: 2px solid var(--yellow-bright);
-    color: var(--text-light);
-    padding: 5px 12px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: 0.2s;
-    margin-left: 15px;
-}
-.cart-item-remove:hover {
-    background: var(--yellow-bright);
-    color: var(--purple-deep);
-}
-.cart-total {
-    font-size: 24px;
-    font-weight: 700;
-    text-align: right;
-    margin-top: 20px;
-    color: var(--text-light);
-}
-.cart-empty {
-    text-align: center;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 18px;
-    padding: 30px;
-}
-
 .payment-section {
     background: var(--glass-bg);
     backdrop-filter: blur(12px);
@@ -812,7 +703,6 @@ body {
 
 .product-card,
 .cat-item,
-.cart-section,
 .payment-section,
 .promo-banner,
 .modal-content,
@@ -909,7 +799,8 @@ body.cyber-mode .cat-item:hover {
     box-shadow: 0 0 20px #ff00cc;
 }
 
-.favorites-sidebar {
+/* PANELE BOCZNE: KOSZYK I ULUBIONE */
+.cart-sidebar, .favorites-sidebar {
     position: fixed;
     top: 0;
     right: -380px;
@@ -924,12 +815,10 @@ body.cyber-mode .cat-item:hover {
     display: flex;
     flex-direction: column;
 }
-
-.favorites-sidebar.open {
+.cart-sidebar.open, .favorites-sidebar.open {
     right: 0;
 }
-
-.favorites-sidebar-header {
+.cart-sidebar-header, .favorites-sidebar-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -937,14 +826,12 @@ body.cyber-mode .cat-item:hover {
     border-bottom: 1px solid var(--glass-border);
     background: rgba(0, 0, 0, 0.2);
 }
-
-.favorites-sidebar-header h3 {
+.cart-sidebar-header h3, .favorites-sidebar-header h3 {
     font-size: 24px;
     color: var(--yellow-bright);
     margin: 0;
 }
-
-.favorites-sidebar-close {
+.cart-sidebar-close, .favorites-sidebar-close {
     background: none;
     border: none;
     font-size: 32px;
@@ -952,26 +839,22 @@ body.cyber-mode .cat-item:hover {
     color: var(--text-light);
     transition: 0.2s;
 }
-
-.favorites-sidebar-close:hover {
+.cart-sidebar-close:hover, .favorites-sidebar-close:hover {
     color: var(--yellow-bright);
     transform: scale(1.1);
 }
-
-.favorites-sidebar-content {
+.cart-sidebar-content, .favorites-sidebar-content {
     flex: 1;
     overflow-y: auto;
     padding: 20px;
 }
-
-.favorites-sidebar-content .favorites-empty {
+.cart-sidebar-content .cart-empty, .favorites-sidebar-content .favorites-empty {
     text-align: center;
     color: rgba(255, 255, 255, 0.7);
     font-size: 18px;
     padding: 30px;
 }
-
-.favorites-sidebar-item {
+.cart-item-sidebar, .favorites-sidebar-item {
     display: flex;
     align-items: center;
     gap: 15px;
@@ -982,78 +865,69 @@ body.cyber-mode .cat-item:hover {
     border: 1px solid var(--glass-border);
     transition: all 0.3s ease;
 }
-
-.favorites-sidebar-item:hover {
+.cart-item-sidebar:hover, .favorites-sidebar-item:hover {
     background: rgba(255, 255, 255, 0.15);
     border-color: var(--yellow-bright);
     transform: translateX(-5px);
 }
-
-.favorites-sidebar-item-img {
+.cart-item-img, .favorites-sidebar-item-img {
     width: 60px;
     height: 60px;
     object-fit: cover;
     border-radius: 12px;
     border: 1px solid var(--yellow-bright);
 }
-
-.favorites-sidebar-item-info {
+.cart-item-info, .favorites-sidebar-item-info {
     flex: 1;
 }
-
-.favorites-sidebar-item-title {
+.cart-item-title, .favorites-sidebar-item-title {
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 5px;
 }
-
-.favorites-sidebar-item-price {
+.cart-item-price, .favorites-sidebar-item-price {
     font-size: 18px;
     font-weight: 700;
     color: var(--yellow-bright);
 }
-
-.favorites-sidebar-item-actions {
+.cart-item-quantity-sidebar {
     display: flex;
+    align-items: center;
     gap: 10px;
+    margin-top: 5px;
 }
-
-.favorites-sidebar-item-add {
+.cart-qty-btn {
     background: var(--purple-deep);
-    border: none;
     color: white;
-    padding: 8px 12px;
-    border-radius: 30px;
-    font-size: 12px;
-    font-weight: 600;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
     transition: 0.2s;
     border: 1px solid var(--yellow-bright);
 }
-
-.favorites-sidebar-item-add:hover {
+.cart-qty-btn:hover {
     background: var(--yellow-bright);
     color: var(--purple-deep);
 }
-
-.favorites-sidebar-item-remove {
+.cart-item-remove-sidebar {
     background: none;
     border: 1px solid #ff6b6b;
     color: #ff6b6b;
-    padding: 8px 12px;
+    padding: 6px 12px;
     border-radius: 30px;
     font-size: 12px;
-    font-weight: 600;
     cursor: pointer;
     transition: 0.2s;
 }
-
-.favorites-sidebar-item-remove:hover {
+.cart-item-remove-sidebar:hover {
     background: #ff6b6b;
     color: white;
 }
-
-.favorites-overlay {
+.cart-overlay, .favorites-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -1065,17 +939,16 @@ body.cyber-mode .cat-item:hover {
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-
-.favorites-overlay.active {
+.cart-overlay.active, .favorites-overlay.active {
     opacity: 1;
     visibility: visible;
 }
-
-.favorites-sidebar:hover {
+.cart-sidebar:hover, .favorites-sidebar:hover {
     background: rgba(255, 255, 255, 0.12);
     transition: background 0.3s ease;
 }
 
+/* ADMIN MODAL (bez zmian) */
 .admin-modal {
     display: none;
     position: fixed;
@@ -1288,6 +1161,6 @@ body.cyber-mode .cat-item:hover {
 @media (max-width: 768px) {
     .greeting-btn { margin-top: 30px; padding: 14px 30px; font-size: 18px; }
     .hero-full { height: 70vh; }
-    .favorites-sidebar { width: 100%; right: -100%; }
+    .cart-sidebar, .favorites-sidebar { width: 100%; right: -100%; }
     .admin-modal-content { width: 95%; padding: 20px; }
 }
