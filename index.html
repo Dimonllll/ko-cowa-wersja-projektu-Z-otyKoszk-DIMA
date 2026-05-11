@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZłotyKoszyk</title>
+    <title>GLASS.shop · Dmytro Zhmurko zaprasza</title>
     <link rel="stylesheet" href="d.css">
 </head>
 <body>
     <header class="site-header animate-on-load">
         <div class="container header-row">
             <div class="logo">
-                <a href="#">Złoty<span class="logo-dot"></span>Koszyk</a>
+                <a href="#">Dima<span class="logo-dot">.</span>shop</a>
             </div>
             <form class="search-form js-search-form" action="#" method="get">
                 <input type="text" class="js-search-input" placeholder="Szukaj produktów..." aria-label="Szukaj">
@@ -18,11 +18,12 @@
             </form>
             <div class="user-actions">
                 <a href="#" class="js-login" id="loginBtn" title="Zaloguj">👤 Zaloguj</a>
+                <a href="#" class="js-logout" id="logoutBtn" style="display: none;" title="Wyloguj">👤 Wyloguj</a>
                 <button class="cart-sidebar-toggle" id="cartSidebarToggleBtn" title="Koszyk">🛒 Koszyk</button>
                 <button class="favorites-toggle-btn" id="favoritesToggleBtn" title="Ulubione">❤️ Ulubione</button>
                 <a href="#" class="theme-toggle js-theme-toggle" id="theme-toggle" title="Zmień motyw">🌙</a>
                 <button id="cyberModeBtn" class="cyber-mode-toggle" title="Cyber Mode">💠 Cyber Mode</button>
-                <button id="adminBtn" class="admin-mode-toggle" title="Admin Panel">🔧 Admin</button>
+                <button id="adminBtn" class="admin-mode-toggle" style="display: none;" title="Admin Panel">🔧 Admin</button>
             </div>
         </div>
     </header>
@@ -59,7 +60,15 @@
         <h2 class="section-title animate-on-load">Bestsellery</h2>
         <div class="products-grid" id="productsGrid"></div>
 
-        <section class="payment-section animate-on-load">
+        <div class="promo-banner animate-on-load">
+            <div>
+                <h2>Rabat na pierwsze zakupy</h2>
+                <p>Wpisz kod: GLASS15 i zgarnij 15% zniżki</p>
+            </div>
+            <div class="promo-code">GLASS15</div>
+        </div>
+
+        <section class="payment-section animate-on-load" id="paymentSection">
             <h2 class="payment-title">💳 Wybierz metodę płatności</h2>
             <div class="payment-options">
                 <label class="payment-option">
@@ -74,6 +83,13 @@
                 <label class="payment-option">
                     <input type="radio" name="payment" value="paypal"> PayPal
                 </label>
+            </div>
+
+            <div class="address-fields">
+                <h3>Adres dostawy</h3>
+                <input type="text" id="addressStreet" placeholder="Ulica i numer" required>
+                <input type="text" id="addressCity" placeholder="Miasto" required>
+                <input type="text" id="addressZip" placeholder="Kod pocztowy (XX-XXX)" maxlength="6" required>
             </div>
 
             <div class="payment-details-container">
@@ -100,8 +116,8 @@
     <footer class="site-footer animate-on-load">
         <div class="container footer-grid">
             <div class="footer-col">
-                <h4 style="color:var(--yellow-bright);">ZłotyKoszyk</h4>
-                <p>Twój sklep z charakterem.</p>
+                <h4 style="color:var(--yellow-bright);">GLASS.shop</h4>
+                <p>Twój szklany sklep z charakterem.</p>
             </div>
             <div class="footer-col">
                 <h4 style="color:var(--yellow-bright);">Pomoc</h4>
@@ -132,6 +148,9 @@
         </div>
         <div class="cart-sidebar-content" id="cartSidebarContent">
             <div class="cart-empty">Koszyk jest pusty. Dodaj produkty.</div>
+        </div>
+        <div class="cart-sidebar-footer">
+            <button id="goToPaymentBtn" class="cart-payment-btn">Przejdź do płatności</button>
         </div>
     </div>
     <div class="cart-overlay" id="cartOverlay"></div>
