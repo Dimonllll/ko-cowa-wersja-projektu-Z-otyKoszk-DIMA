@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZŁOTYKOSZYK · Dmytro Zhmurko zaprasza</title>
+    <title>ZŁOTYKOSZYK · Dmytro Zhmurko</title>
     <link rel="stylesheet" href="d.css">
 </head>
 <body>
@@ -69,27 +69,27 @@
 
             <div class="address-fields">
                 <h3>📦 Adres dostawy</h3>
-                <input type="text" id="shipName" placeholder="Imię" required>
-                <input type="text" id="shipSurname" placeholder="Nazwisko" required>
-                <input type="text" id="shipStreet" placeholder="Ulica" required>
+                <input type="text" id="shipName" placeholder="Imię" class="validate-text" maxlength="50">
+                <input type="text" id="shipSurname" placeholder="Nazwisko" class="validate-text" maxlength="50">
+                <input type="text" id="shipStreet" placeholder="Ulica" class="validate-text" maxlength="100">
                 <div style="display: flex; gap: 10px;">
-                    <input type="text" id="shipHouseNumber" placeholder="Numer domu" style="flex:1" required>
-                    <input type="text" id="shipApartment" placeholder="Mieszkanie (opcjonalnie)" style="flex:1">
+                    <input type="text" id="shipHouseNumber" placeholder="Numer domu" class="validate-house" maxlength="10">
+                    <input type="text" id="shipApartment" placeholder="Mieszkanie (opcjonalnie)" class="validate-house" maxlength="10">
                 </div>
-                <input type="text" id="shipCity" placeholder="Miasto" required>
-                <input type="text" id="shipZip" placeholder="Kod pocztowy (XX-XXX)" maxlength="6" required>
-                <input type="text" id="shipCountry" placeholder="Kraj" required>
-                <input type="tel" id="shipPhone" placeholder="Numer telefonu" required>
+                <input type="text" id="shipCity" placeholder="Miasto" class="validate-text" maxlength="50">
+                <input type="text" id="shipZip" placeholder="Kod pocztowy (XX-XXX)" class="validate-zip" maxlength="6">
+                <input type="text" id="shipCountry" placeholder="Kraj" class="validate-text" maxlength="50">
+                <input type="tel" id="shipPhone" placeholder="Numer telefonu (9 cyfr)" class="validate-phone" maxlength="15">
             </div>
 
             <div class="payment-details-container">
                 <div class="payment-detail" id="detail-card">
-                    <input type="text" placeholder="Numer karty" id="cardNumber" maxlength="19">
-                    <input type="text" placeholder="MM/RR" id="cardExpiry" maxlength="5">
-                    <input type="text" placeholder="CVV" id="cardCvv" maxlength="3">
+                    <input type="text" placeholder="Numer karty" id="cardNumber" class="validate-card-number" maxlength="19">
+                    <input type="text" placeholder="MM/RR" id="cardExpiry" class="validate-card-expiry" maxlength="5">
+                    <input type="text" placeholder="CVV" id="cardCvv" class="validate-card-cvv" maxlength="3">
                 </div>
                 <div class="payment-detail" id="detail-blik">
-                    <input type="text" placeholder="Kod BLIK (6 cyfr)" id="blikCode" maxlength="6">
+                    <input type="text" placeholder="Kod BLIK (6 cyfr)" id="blikCode" class="validate-blik" maxlength="6">
                 </div>
                 <div class="payment-detail" id="detail-transfer">
                     <p>Przelew na konto: 12 3456 7890 1234 5678 9012 3456</p>
@@ -130,7 +130,6 @@
         </div>
     </footer>
 
-    <!-- Panel boczny koszyka -->
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-sidebar-header">
             <h3>🛒 Twój koszyk</h3>
@@ -145,7 +144,6 @@
     </div>
     <div class="cart-overlay" id="cartOverlay"></div>
 
-    <!-- Panel boczny ulubionych -->
     <div class="favorites-sidebar" id="favoritesSidebar">
         <div class="favorites-sidebar-header">
             <h3>❤️ Moje ulubione</h3>
@@ -157,33 +155,33 @@
     </div>
     <div class="favorites-overlay" id="favoritesOverlay"></div>
 
-    <!-- Modal logowania/rejestracji -->
     <div class="modal" id="loginModal">
         <div class="modal-content">
             <span class="modal-close" id="closeModal">&times;</span>
             <h2>Logowanie / Rejestracja</h2>
-            <form id="authForm">
-                <input type="text" id="authUsername" placeholder="Login" required>
-                <input type="password" id="authPassword" placeholder="Hasło" required>
-                <select id="authRole">
-                    <option value="user">Zarejestruj jako użytkownik</option>
-                    <option value="admin">Zarejestruj jako admin</option>
-                </select>
-                <button type="submit" id="authSubmitBtn">Zarejestruj i zaloguj</button>
-                <p class="error-message" id="authError"></p>
-                <p style="text-align:center; margin-top:15px;">Masz już konto? <a href="#" id="showLoginOnly">Zaloguj się</a></p>
-            </form>
-            <form id="loginOnlyForm" style="display: none;">
-                <input type="text" id="loginOnlyUsername" placeholder="Login" required>
-                <input type="password" id="loginOnlyPassword" placeholder="Hasło" required>
-                <button type="submit">Zaloguj</button>
-                <p class="error-message" id="loginOnlyError"></p>
-                <p style="text-align:center; margin-top:15px;">Nie masz konta? <a href="#" id="showRegisterForm">Zarejestruj się</a></p>
-            </form>
+            <div id="authForms">
+                <form id="authForm">
+                    <input type="text" id="authUsername" placeholder="Login" maxlength="30" required>
+                    <input type="password" id="authPassword" placeholder="Hasło" maxlength="30" required>
+                    <select id="authRole">
+                        <option value="user">Zarejestruj jako użytkownik</option>
+                        <option value="admin">Zarejestruj jako admin</option>
+                    </select>
+                    <button type="submit">Zarejestruj i zaloguj</button>
+                    <p class="error-message" id="authError"></p>
+                    <p style="text-align:center; margin-top:15px;">Masz już konto? <a href="#" id="showLoginOnly">Zaloguj się</a></p>
+                </form>
+                <form id="loginOnlyForm" style="display: none;">
+                    <input type="text" id="loginOnlyUsername" placeholder="Login" maxlength="30" required>
+                    <input type="password" id="loginOnlyPassword" placeholder="Hasło" maxlength="30" required>
+                    <button type="submit">Zaloguj</button>
+                    <p class="error-message" id="loginOnlyError"></p>
+                    <p style="text-align:center; margin-top:15px;">Nie masz konta? <a href="#" id="showRegisterForm">Zarejestruj się</a></p>
+                </form>
+            </div>
         </div>
     </div>
 
-    <!-- Modal admina -->
     <div id="adminModal" class="admin-modal">
         <div class="admin-modal-content">
             <span class="admin-modal-close" id="adminModalClose">&times;</span>
