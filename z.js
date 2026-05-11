@@ -66,6 +66,7 @@
     const body = document.body;
     const payButton = document.querySelector('.js-pay-button');
     const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
     const loginModal = document.getElementById('loginModal');
     const closeModal = document.getElementById('closeModal');
     const loginForm = document.getElementById('loginForm');
@@ -82,12 +83,17 @@
     const cardExpiry = document.getElementById('cardExpiry');
     const cardCvv = document.getElementById('cardCvv');
     const blikCode = document.getElementById('blikCode');
+    const addressStreet = document.getElementById('addressStreet');
+    const addressCity = document.getElementById('addressCity');
+    const addressZip = document.getElementById('addressZip');
 
     const cartSidebar = document.getElementById('cartSidebar');
     const cartSidebarContent = document.getElementById('cartSidebarContent');
     const cartSidebarToggleBtn = document.getElementById('cartSidebarToggleBtn');
     const cartSidebarClose = document.getElementById('cartSidebarClose');
     const cartOverlay = document.getElementById('cartOverlay');
+    const goToPaymentBtn = document.getElementById('goToPaymentBtn');
+
     const favoritesSidebar = document.getElementById('favoritesSidebar');
     const favoritesSidebarContent = document.getElementById('favoritesSidebarContent');
     const favoritesToggleBtn = document.getElementById('favoritesToggleBtn');
@@ -106,6 +112,9 @@
     const adminImg = document.getElementById('adminImg');
     const adminProductsList = document.getElementById('adminProductsList');
     let editingProductId = null;
+
+    let isLoggedIn = false;
+    let userRole = 'user';
 
     function showToast(message) {
         if (!toastContainer) return;
@@ -183,6 +192,69 @@
     blikCode.addEventListener('input', function() {
         this.value = this.value.replace(/\D/g, '').substring(0, 6);
     });
+    addressZip.addEventListener('input', function() {
+        let value = this.value.replace(/[^0-9-]/g, '');
+        if (value.length >= 3 && !value.includes('-')) {
+            value = value.substring(0, 2) + '-' + value.substring(2);
+        }
+        this.value = value.substring(0, 6);
+    });
+
+    function updateLoginUI() {
+        if (isLoggedIn) {
+            loginBtn.style.display = 'none';
+            logoutBtn.style.display = 'inline-flex';
+            if (userRole === 'admin') {
+                adminBtn.style.display = 'inline-flex';
+            } else {
+                adminBtn.style.display = 'none';
+            }
+        } else {
+            loginBtn.style.display = 'inline-flex';
+            logoutBtn.style.display = 'none';
+            adminBtn.style.display = 'none';
+        }
+    }
+
+    function saveAuthState() {
+        localStorage.setItem('isLoggedIn', isLoggedIn);
+        localStorage.setItem('userRole', userRole);
+    }
+
+    function loadAuthState() {
+        const savedLogin = localStorage.getItem('isLoggedIn');
+        const savedRole = localStorage.getItem('userRole');
+        if (savedLogin === 'true') {
+            isLoggedIn = true;
+            userRole = savedRole || 'user';
+        } else {
+            isLoggedIn = false;
+            userRole = 'user';
+        }
+        updateLoginUI();
+    }
+
+    function logout() {
+        isLoggedIn = false;
+        userRole = 'user';
+        saveAuthState();
+        updateLoginUI();
+        showToast('Wylogowano pomyślnie');
+    }
+
+    function login(username, password) {
+        isLoggedIn = true;
+        if (username === 'admin') {
+            userRole = 'admin';
+            showToast('Zalogowano jako administrator');
+        } else {
+            userRole = 'user';
+            showToast(`Zalogowano jako ${username}`);
+        }
+        saveAuthState();
+        updateLoginUI();
+        loginModal.classList.remove('active');
+    }
 
     function renderCartSidebar() {
         if (!cartSidebarContent) return;
@@ -240,6 +312,12 @@
     if (cartSidebarToggleBtn) cartSidebarToggleBtn.addEventListener('click', openCartSidebar);
     if (cartSidebarClose) cartSidebarClose.addEventListener('click', closeCartSidebar);
     if (cartOverlay) cartOverlay.addEventListener('click', closeCartSidebar);
+    if (goToPaymentBtn) {
+        goToPaymentBtn.addEventListener('click', () => {
+            closeCartSidebar();
+            smoothScroll('#paymentSection');
+        });
+    }
 
     function renderCart() {
         if (!cartItemsContainer || !cartTotalSpan) return;
@@ -262,10 +340,10 @@
                         <div class="cart-item-price">${item.price} zł</div>
                     </div>
                     <div class="cart-item-quantity">
-                        <button class="cart-qty-btn cart-decrease" data-id="${id}" title="Zmniejsz ilość">−</button>
+                        <button class="cart-qty-btn cart-decrease" data-id="${id}">−</button>
                         <span>${item.quantity}</span>
-                        <button class="cart-qty-btn cart-increase" data-id="${id}" title="Zwiększ ilość">+</button>
-                        <button class="cart-item-remove" data-id="${id}" title="Usuń z koszyka">Usuń</button>
+                        <button class="cart-qty-btn cart-increase" data-id="${id}">+</button>
+                        <button class="cart-item-remove" data-id="${id}">Usuń</button>
                     </div>
                 </li>
             `;
@@ -554,6 +632,10 @@
     function handlePayment() {
         const selected = document.querySelector('input[name="payment"]:checked').value;
         let valid = true;
+        if (!addressStreet.value.trim() || !addressCity.value.trim() || !addressZip.value.trim()) {
+            showToast('Wypełnij wszystkie pola adresu');
+            valid = false;
+        }
         if (selected === 'card') {
             if (!validateCardNumber(cardNumber.value) || !validateCardExpiry(cardExpiry.value) || !validateCardCvv(cardCvv.value)) {
                 showToast('Wypełnij wszystkie dane karty poprawnie');
@@ -574,6 +656,7 @@
             showToast('Płatność zakończona sukcesem! Dziękujemy.');
             if (selected === 'card') { cardNumber.value = ''; cardExpiry.value = ''; cardCvv.value = ''; }
             else if (selected === 'blik') blikCode.value = '';
+            addressStreet.value = ''; addressCity.value = ''; addressZip.value = '';
             updateCartCountDisplay();
         }
     }
@@ -593,6 +676,12 @@
             loginModal.classList.add('active');
         });
     }
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            logout();
+        });
+    }
     if (closeModal) {
         closeModal.addEventListener('click', () => {
             loginModal.classList.remove('active');
@@ -605,9 +694,9 @@
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            showToast('Zalogowano pomyślnie (demo)');
-            loginModal.classList.remove('active');
-            loginError.textContent = '';
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            login(username, password);
         });
     }
     if (registerLink) {
@@ -658,6 +747,7 @@
     }
 
     function init() {
+        loadAuthState();
         loadProductsFromStorage();
         loadCart();
         loadFavorites();
@@ -676,4 +766,3 @@
     }
     init();
 })();
-       
