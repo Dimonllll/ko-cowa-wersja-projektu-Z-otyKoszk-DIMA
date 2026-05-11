@@ -219,8 +219,11 @@ body {
 .category-nav {
     background: rgba(90, 24, 154, 0.15);
     backdrop-filter: blur(10px);
-    padding: 12px 0;
     border-bottom: 1px solid var(--yellow-bright);
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    padding: 12px 0;
 }
 
 .category-list {
@@ -471,93 +474,37 @@ body {
     color: var(--purple-deep);
 }
 
-.cart-section {
+.promo-banner {
     background: var(--glass-bg);
     backdrop-filter: blur(12px);
     border-radius: 40px;
-    padding: 30px;
+    padding: 40px 50px;
     margin: 50px 0;
-    border: 2px solid var(--yellow-bright);
-    box-shadow: 0 0 30px var(--glass-shadow);
-    transition: box-shadow 0.3s ease;
-}
-.cart-section:hover {
-    box-shadow: 0 0 40px var(--yellow-bright);
-}
-.cart-title {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: var(--yellow-bright);
-}
-.cart-items {
-    list-style: none;
-    margin-bottom: 20px;
-}
-.cart-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15px 0;
-    border-bottom: 1px solid var(--glass-border);
-}
-.cart-item-info {
-    flex: 2;
-}
-.cart-item-title {
-    font-weight: 600;
-}
-.cart-item-price {
-    color: var(--yellow-bright);
-    font-weight: 500;
-}
-.cart-item-quantity {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.cart-qty-btn {
-    background: var(--purple-deep);
-    color: white;
-    border: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-    border: 1px solid var(--yellow-bright);
-}
-.cart-qty-btn:hover {
-    background: var(--yellow-bright);
-    color: var(--purple-deep);
-}
-.cart-item-remove {
-    background: none;
+    flex-wrap: wrap;
+    gap: 30px;
+    color: var(--text-light);
     border: 2px solid var(--yellow-bright);
-    color: var(--text-light);
-    padding: 5px 12px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: 0.2s;
-    margin-left: 15px;
+    box-shadow: 0 0 30px var(--glass-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.cart-item-remove:hover {
+.promo-banner:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px var(--yellow-bright);
+}
+.promo-banner h2 {
+    font-size: 32px;
+}
+.promo-banner .promo-code {
     background: var(--yellow-bright);
-    color: var(--purple-deep);
-}
-.cart-total {
-    font-size: 24px;
+    padding: 12px 32px;
+    border-radius: 50px;
     font-weight: 700;
-    text-align: right;
-    margin-top: 20px;
-    color: var(--text-light);
-}
-.cart-empty {
-    text-align: center;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 18px;
-    padding: 30px;
+    font-size: 24px;
+    letter-spacing: 3px;
+    color: var(--purple-deep);
 }
 
 .payment-section {
@@ -584,7 +531,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 
 .payment-option {
@@ -599,6 +546,28 @@ body {
     accent-color: var(--yellow-bright);
     width: 20px;
     height: 20px;
+}
+
+.address-fields {
+    background: rgba(255,255,255,0.05);
+    padding: 15px;
+    border-radius: 30px;
+    margin: 15px 0;
+}
+.address-fields h3 {
+    color: var(--yellow-bright);
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.address-fields input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 2px solid var(--yellow-bright);
+    border-radius: 30px;
+    background: rgba(255,255,255,0.1);
+    color: var(--text-light);
+    font-size: 16px;
 }
 
 .payment-details-container {
@@ -644,6 +613,7 @@ body {
     transition: 0.2s;
     border: 2px solid var(--yellow-bright);
     display: inline-block;
+    width: 100%;
 }
 
 .pay-button:hover {
@@ -758,8 +728,8 @@ body {
 
 .product-card,
 .cat-item,
-.cart-section,
 .payment-section,
+.promo-banner,
 .modal-content,
 .toast {
     backdrop-filter: blur(16px);
@@ -770,7 +740,8 @@ body {
 }
 
 .product-card:hover,
-.cat-item:hover {
+.cat-item:hover,
+.promo-banner:hover {
     backdrop-filter: blur(20px);
     background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 20px 40px var(--glass-shadow), 0 0 25px var(--yellow-bright);
@@ -853,11 +824,12 @@ body.cyber-mode .cat-item:hover {
     box-shadow: 0 0 20px #ff00cc;
 }
 
+/* PANELE BOCZNE: KOSZYK I ULUBIONE */
 .cart-sidebar, .favorites-sidebar {
     position: fixed;
     top: 0;
-    right: -380px;
-    width: 380px;
+    right: -420px;
+    width: 420px;
     height: 100%;
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
@@ -906,6 +878,34 @@ body.cyber-mode .cat-item:hover {
     color: rgba(255, 255, 255, 0.7);
     font-size: 18px;
     padding: 30px;
+}
+.cart-sidebar-footer {
+    padding: 15px 20px;
+    border-top: 1px solid var(--glass-border);
+}
+.cart-payment-btn {
+    width: 100%;
+    background: var(--purple-deep);
+    color: white;
+    border: 2px solid var(--yellow-bright);
+    padding: 12px;
+    border-radius: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.cart-payment-btn:hover {
+    background: var(--yellow-bright);
+    color: var(--purple-deep);
+}
+.cart-sidebar-total {
+    text-align: right;
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--glass-border);
+    color: var(--yellow-bright);
 }
 .cart-item-sidebar, .favorites-sidebar-item {
     display: flex;
