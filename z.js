@@ -1,4 +1,5 @@
 (function() {
+    // ---------- PRODUKTY ----------
     let productsData = [
         { id: 101, title: 'buty damskie', price: 1499, category: 'fashion', img: '1.jpg' },
         { id: 102, title: 'Koszulka czarna / fioletowa', price: 129, category: 'fashion', img: 'shirt-1.jpg' },
@@ -54,6 +55,7 @@
     let searchQuery = '';
     let currentUser = null;
 
+    // DOM elements
     const productsGrid = document.getElementById('productsGrid');
     const cartCountSpan = document.querySelector('.js-cart-count');
     const cartItemsContainer = document.getElementById('cartItemsContainer');
@@ -70,9 +72,10 @@
     const loginModal = document.getElementById('loginModal');
     const closeModal = document.getElementById('closeModal');
     const authForm = document.getElementById('authForm');
-    const authError = document.getElementById('authError');
-    const showLoginOnly = document.getElementById('showLoginOnly');
     const loginOnlyForm = document.getElementById('loginOnlyForm');
+    const authError = document.getElementById('authError');
+    const loginOnlyError = document.getElementById('loginOnlyError');
+    const showLoginOnly = document.getElementById('showLoginOnly');
     const showRegisterForm = document.getElementById('showRegisterForm');
     const toastContainer = document.getElementById('toastContainer');
 
@@ -121,6 +124,7 @@
     const adminProductsList = document.getElementById('adminProductsList');
     let editingProductId = null;
 
+    // ---------- FUNKCJE POMOCNICZE ----------
     function showToast(message) {
         if (!toastContainer) return;
         const toast = document.createElement('div');
@@ -150,16 +154,9 @@
     function loadCart() { const saved = localStorage.getItem('cart'); if (saved) cart = JSON.parse(saved); }
     function saveFavorites() { localStorage.setItem('favorites', JSON.stringify(favorites)); }
     function loadFavorites() { const saved = localStorage.getItem('favorites'); if (saved) favorites = JSON.parse(saved); }
-    function saveUsers() {
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        localStorage.setItem('users', JSON.stringify(users));
-    }
-    function loadUsers() {
-        return JSON.parse(localStorage.getItem('users') || '[]');
-    }
-    function saveCurrentUser() {
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    }
+    function saveUsers() { localStorage.setItem('users', JSON.stringify(users)); }
+    function loadUsers() { return JSON.parse(localStorage.getItem('users') || '[]'); }
+    function saveCurrentUser() { localStorage.setItem('currentUser', JSON.stringify(currentUser)); }
     function loadCurrentUser() {
         const saved = localStorage.getItem('currentUser');
         if (saved && saved !== 'null') currentUser = JSON.parse(saved);
@@ -167,31 +164,23 @@
         updateLoginUI();
     }
 
-    function formatCardNumber(input) {
-        let value = input.value.replace(/\D/g, '').substring(0, 16);
-        let formatted = '';
-        for (let i = 0; i < value.length; i++) {
-            if (i > 0 && i % 4 === 0) formatted += ' ';
-            formatted += value[i];
-        }
-        input.value = formatted;
+    // ---------- WALIDACJA FORM ----------
+    function validateTextField(value) {
+        return /^[A-Za-zÀ-ÿ\s-]+$/.test(value);
     }
-    function formatCardExpiry(input) {
-        let value = input.value.replace(/\D/g, '').substring(0, 4);
-        if (value.length >= 3) {
-            input.value = value.substring(0, 2) + '/' + value.substring(2);
-        } else {
-            input.value = value;
-        }
+    function validatePhone(value) {
+        return /^\d{9}$/.test(value.replace(/\s/g, ''));
     }
-    function formatCardCvv(input) {
-        input.value = input.value.replace(/\D/g, '').substring(0, 3);
+    function validateZip(value) {
+        return /^\d{2}-\d{3}$/.test(value);
     }
-    function validateCardNumber(value) {
-        const digits = value.replace(/\s/g, '');
-        return /^\d{16}$/.test(digits);
+    function validateHouseNumber(value) {
+        return /^[0-9A-Za-z\/\-\s]+$/.test(value);
     }
-    function validateCardExpiry(value) {
+    function validateCardNumberFull(value) {
+        return /^\d{16}$/.test(value.replace(/\s/g, ''));
+    }
+    function validateCardExpiryFull(value) {
         if (!/^\d{2}\/\d{2}$/.test(value)) return false;
         const [month, year] = value.split('/');
         const now = new Date();
@@ -203,50 +192,102 @@
         if (expYear === currentYear && expMonth < currentMonth) return false;
         return true;
     }
-    function validateCardCvv(value) {
+    function validateCardCvvFull(value) {
         return /^\d{3}$/.test(value);
     }
+    function validateBlik(value) {
+        return /^\d{6}$/.test(value);
+    }
+    function validateAddressFull() {
+        let valid = true;
+        if (!shipName.value.trim() || !validateTextField(shipName.value.trim())) valid = false;
+        if (!shipSurname.value.trim() || !validateTextField(shipSurname.value.trim())) valid = false;
+        if (!shipStreet.value.trim()) valid = false;
+        if (!shipHouseNumber.value.trim() || !validateHouseNumber(shipHouseNumber.value.trim())) valid = false;
+        if (!shipCity.value.trim() || !validateTextField(shipCity.value.trim())) valid = false;
+        if (!shipZip.value.trim() || !validateZip(shipZip.value.trim())) valid = false;
+        if (!shipCountry.value.trim() || !validateTextField(shipCountry.value.trim())) valid = false;
+        if (!shipPhone.value.trim() || !validatePhone(shipPhone.value.trim())) valid = false;
+        return valid;
+    }
 
-    cardNumber.addEventListener('input', function() { formatCardNumber(cardNumber); });
-    cardExpiry.addEventListener('input', function() { formatCardExpiry(cardExpiry); });
-    cardCvv.addEventListener('input', function() { formatCardCvv(cardCvv); });
-    blikCode.addEventListener('input', function() {
-        this.value = this.value.replace(/\D/g, '').substring(0, 6);
-    });
-    shipZip.addEventListener('input', function() {
-        let value = this.value.replace(/[^0-9-]/g, '');
-        if (value.length >= 3 && !value.includes('-')) {
-            value = value.substring(0, 2) + '-' + value.substring(2);
+    function setupInputFilters() {
+        const textFields = document.querySelectorAll('.validate-text');
+        textFields.forEach(field => {
+            field.addEventListener('input', function() {
+                this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s-]/g, '');
+            });
+        });
+        const phoneField = document.querySelector('.validate-phone');
+        if (phoneField) {
+            phoneField.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '').substring(0, 9);
+            });
         }
-        this.value = value.substring(0, 6);
-    });
-
-    function updateLoginUI() {
-        if (currentUser) {
-            loginBtn.style.display = 'none';
-            logoutBtn.style.display = 'inline-flex';
-            if (currentUser.role === 'admin') {
-                adminBtn.style.display = 'inline-flex';
-            } else {
-                adminBtn.style.display = 'none';
-            }
-        } else {
-            loginBtn.style.display = 'inline-flex';
-            logoutBtn.style.display = 'none';
-            adminBtn.style.display = 'none';
+        const zipField = document.querySelector('.validate-zip');
+        if (zipField) {
+            zipField.addEventListener('input', function() {
+                let value = this.value.replace(/\D/g, '').substring(0, 5);
+                if (value.length >= 3) {
+                    this.value = value.substring(0, 2) + '-' + value.substring(2);
+                } else {
+                    this.value = value;
+                }
+            });
+        }
+        const houseFields = document.querySelectorAll('.validate-house');
+        houseFields.forEach(field => {
+            field.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9A-Za-z\/\-]/g, '');
+            });
+        });
+        const cardNumberField = document.querySelector('.validate-card-number');
+        if (cardNumberField) {
+            cardNumberField.addEventListener('input', function() {
+                let value = this.value.replace(/\D/g, '').substring(0, 16);
+                let formatted = '';
+                for (let i = 0; i < value.length; i++) {
+                    if (i > 0 && i % 4 === 0) formatted += ' ';
+                    formatted += value[i];
+                }
+                this.value = formatted;
+            });
+        }
+        const cardExpiryField = document.querySelector('.validate-card-expiry');
+        if (cardExpiryField) {
+            cardExpiryField.addEventListener('input', function() {
+                let value = this.value.replace(/\D/g, '').substring(0, 4);
+                if (value.length >= 3) {
+                    this.value = value.substring(0, 2) + '/' + value.substring(2);
+                } else {
+                    this.value = value;
+                }
+            });
+        }
+        const cardCvvField = document.querySelector('.validate-card-cvv');
+        if (cardCvvField) {
+            cardCvvField.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '').substring(0, 3);
+            });
+        }
+        const blikField = document.querySelector('.validate-blik');
+        if (blikField) {
+            blikField.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '').substring(0, 6);
+            });
         }
     }
 
+    // ---------- LOGOWANIE / REJESTRACJA ----------
     function register(username, password, role) {
         let users = loadUsers();
         if (users.find(u => u.username === username)) {
             authError.textContent = 'Użytkownik już istnieje';
             return false;
         }
-        const newUser = { username, password, role };
-        users.push(newUser);
+        users.push({ username, password, role });
         localStorage.setItem('users', JSON.stringify(users));
-        currentUser = newUser;
+        currentUser = { username, password, role };
         saveCurrentUser();
         updateLoginUI();
         authError.textContent = '';
@@ -254,7 +295,6 @@
         loginModal.classList.remove('active');
         return true;
     }
-
     function loginOnly(username, password) {
         const users = loadUsers();
         const user = users.find(u => u.username === username && u.password === password);
@@ -266,11 +306,10 @@
             loginModal.classList.remove('active');
             return true;
         } else {
-            document.getElementById('loginOnlyError').textContent = 'Nieprawidłowy login lub hasło';
+            loginOnlyError.textContent = 'Nieprawidłowy login lub hasło';
             return false;
         }
     }
-
     function logout() {
         currentUser = null;
         saveCurrentUser();
@@ -278,7 +317,19 @@
         showToast('Wylogowano pomyślnie');
         if (adminModal.classList.contains('active')) closeAdminModal();
     }
+    function updateLoginUI() {
+        if (currentUser) {
+            loginBtn.style.display = 'none';
+            logoutBtn.style.display = 'inline-flex';
+            adminBtn.style.display = currentUser.role === 'admin' ? 'inline-flex' : 'none';
+        } else {
+            loginBtn.style.display = 'inline-flex';
+            logoutBtn.style.display = 'none';
+            adminBtn.style.display = 'none';
+        }
+    }
 
+    // ---------- KOSZYK ----------
     function renderCartSidebar() {
         if (!cartSidebarContent) return;
         const cartItems = Object.entries(cart);
@@ -412,6 +463,7 @@
         }
     }
 
+    // ---------- ULUBIONE ----------
     function toggleFavorite(id) {
         const index = favorites.indexOf(id);
         const product = productsData.find(p => p.id == id);
@@ -477,6 +529,7 @@
     if (favoritesSidebarClose) favoritesSidebarClose.addEventListener('click', closeFavoritesSidebar);
     if (favoritesOverlay) favoritesOverlay.addEventListener('click', closeFavoritesSidebar);
 
+    // ---------- ADMIN ----------
     function renderAdminProductList() {
         if (!adminProductsList) return;
         if (productsData.length === 0) {
@@ -560,6 +613,10 @@
     }
 
     function openAdminModal() {
+        if (!currentUser || currentUser.role !== 'admin') {
+            showToast('Brak uprawnień');
+            return;
+        }
         adminModal.classList.add('active');
         adminOverlay.classList.add('active');
         renderAdminProductList();
@@ -580,6 +637,7 @@
     if (adminOverlay) adminOverlay.addEventListener('click', closeAdminModal);
     if (adminAddBtn) adminAddBtn.addEventListener('click', () => { if (editingProductId !== null) saveEdit(); else addProduct(); });
 
+    // ---------- RENDER PRODUKTÓW ----------
     function attachProductButtons() {
         document.querySelectorAll('.js-add-to-cart').forEach(btn => { btn.removeEventListener('click', handleAddToCart); btn.addEventListener('click', handleAddToCart); });
         document.querySelectorAll('.js-fav-btn').forEach(btn => { btn.removeEventListener('click', handleToggleFav); btn.addEventListener('click', handleToggleFav); });
@@ -652,32 +710,20 @@
     paymentRadios.forEach(radio => radio.addEventListener('change', updatePaymentDetails));
     updatePaymentDetails();
 
-    function validateAddress() {
-        if (!shipName.value.trim()) return false;
-        if (!shipSurname.value.trim()) return false;
-        if (!shipStreet.value.trim()) return false;
-        if (!shipHouseNumber.value.trim()) return false;
-        if (!shipCity.value.trim()) return false;
-        if (!shipZip.value.trim() || !/^\d{2}-\d{3}$/.test(shipZip.value)) return false;
-        if (!shipCountry.value.trim()) return false;
-        if (!shipPhone.value.trim() || !/^\d{9}$/.test(shipPhone.value.replace(/\s/g, ''))) return false;
-        return true;
-    }
-
     function handlePayment() {
-        if (!validateAddress()) {
-            showToast('Wypełnij wszystkie pola adresu poprawnie (kod pocztowy XX-XXX, telefon 9 cyfr)');
+        if (!validateAddressFull()) {
+            showToast('Wypełnij poprawnie wszystkie pola adresu (imię/nazwisko/miasto/kraj – tylko litery, kod pocztowy XX-XXX, telefon 9 cyfr)');
             return;
         }
         const selected = document.querySelector('input[name="payment"]:checked').value;
         let valid = true;
         if (selected === 'card') {
-            if (!validateCardNumber(cardNumber.value) || !validateCardExpiry(cardExpiry.value) || !validateCardCvv(cardCvv.value)) {
-                showToast('Wypełnij wszystkie dane karty poprawnie');
+            if (!validateCardNumberFull(cardNumber.value) || !validateCardExpiryFull(cardExpiry.value) || !validateCardCvvFull(cardCvv.value)) {
+                showToast('Wypełnij wszystkie dane karty poprawnie (16 cyfr, data ważności, CVV 3 cyfry)');
                 valid = false;
             }
         } else if (selected === 'blik') {
-            if (!/^\d{6}$/.test(blikCode.value)) {
+            if (!validateBlik(blikCode.value)) {
                 showToast('Kod BLIK musi składać się z 6 cyfr');
                 valid = false;
             }
@@ -711,32 +757,29 @@
             authForm.style.display = 'block';
             loginOnlyForm.style.display = 'none';
             authError.textContent = '';
-            document.getElementById('loginOnlyError').textContent = '';
+            if (loginOnlyError) loginOnlyError.textContent = '';
             loginModal.classList.add('active');
         });
     }
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            logout();
-        });
-    }
-    if (closeModal) {
-        closeModal.addEventListener('click', () => {
-            loginModal.classList.remove('active');
-        });
-    }
-    window.addEventListener('click', (e) => {
-        if (e.target === loginModal) loginModal.classList.remove('active');
-    });
+    if (logoutBtn) logoutBtn.addEventListener('click', logout);
+    if (closeModal) closeModal.addEventListener('click', () => loginModal.classList.remove('active'));
+    window.addEventListener('click', (e) => { if (e.target === loginModal) loginModal.classList.remove('active'); });
 
     if (authForm) {
         authForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const username = document.getElementById('authUsername').value;
+            const username = document.getElementById('authUsername').value.trim();
             const password = document.getElementById('authPassword').value;
             const role = document.getElementById('authRole').value;
             register(username, password, role);
+        });
+    }
+    if (loginOnlyForm) {
+        loginOnlyForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('loginOnlyUsername').value.trim();
+            const password = document.getElementById('loginOnlyPassword').value;
+            loginOnly(username, password);
         });
     }
     if (showLoginOnly) {
@@ -745,7 +788,7 @@
             authForm.style.display = 'none';
             loginOnlyForm.style.display = 'block';
             authError.textContent = '';
-            document.getElementById('loginOnlyError').textContent = '';
+            if (loginOnlyError) loginOnlyError.textContent = '';
         });
     }
     if (showRegisterForm) {
@@ -754,16 +797,7 @@
             authForm.style.display = 'block';
             loginOnlyForm.style.display = 'none';
             authError.textContent = '';
-            document.getElementById('loginOnlyError').textContent = '';
-        });
-    }
-    const loginOnlyFormSubmit = document.getElementById('loginOnlyForm');
-    if (loginOnlyFormSubmit) {
-        loginOnlyFormSubmit.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const username = document.getElementById('loginOnlyUsername').value;
-            const password = document.getElementById('loginOnlyPassword').value;
-            loginOnly(username, password);
+            if (loginOnlyError) loginOnlyError.textContent = '';
         });
     }
 
@@ -778,13 +812,14 @@
         });
     });
 
+    // ---------- CYBER MODE (poprawiony) ----------
     const cyberModeBtn = document.getElementById('cyberModeBtn');
     let cyberModeActive = localStorage.getItem('cyberMode') === 'true';
     function setCyberMode(active) {
         if (active) {
             body.classList.add('cyber-mode');
-            if (cyberModeBtn) cyberModeBtn.innerHTML = '⚡ Cyber Mode ON';
             if (body.classList.contains('light-theme')) body.classList.remove('light-theme');
+            if (cyberModeBtn) cyberModeBtn.innerHTML = '⚡ Cyber Mode ON';
         } else {
             body.classList.remove('cyber-mode');
             if (cyberModeBtn) cyberModeBtn.innerHTML = '💠 Cyber Mode';
@@ -820,11 +855,8 @@
         updatePaymentDetails();
         startScrollAnimations();
         updateCartCountDisplay();
-        document.querySelectorAll('.js-fav-btn').forEach(btn => {
-            const id = Number(btn.dataset.id);
-            if (favorites.includes(id)) btn.classList.add('active');
-            else btn.classList.remove('active');
-        });
+        attachProductButtons();
+        setupInputFilters();
     }
     init();
 })();
