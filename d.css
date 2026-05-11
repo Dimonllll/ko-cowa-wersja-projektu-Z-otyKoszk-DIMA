@@ -201,15 +201,27 @@ body {
     transform: scale(1.02);
 }
 
-/* ===== STICKY PANEL KATEGORII (naprawiony) ===== */
+
 .category-nav {
     background: rgba(90, 24, 154, 0.15);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--yellow-bright);
     position: sticky;
-    top: 78px; /* wysokość headera + mały margines */
+    top: 64px;
     z-index: 99;
     padding: 12px 0;
+}
+
+@media (max-width: 768px) {
+    .category-nav {
+        top: 110px;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-nav {
+        top: 140px;
+    }
 }
 
 .category-list {
