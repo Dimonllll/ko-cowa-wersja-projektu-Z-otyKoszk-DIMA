@@ -74,6 +74,7 @@ body {
     display: flex;
     gap: 15px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .action-btn {
@@ -184,7 +185,6 @@ body {
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 1rem;
-    box-sizing: border-box;
 }
 
 #loginForm button, #registerForm button, #checkoutBtn, #addProductBtn {
@@ -337,6 +337,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .delete-user-btn, .delete-product-btn {
@@ -348,33 +350,20 @@ body {
     cursor: pointer;
 }
 
-.delete-user-btn:hover, .delete-product-btn:hover {
-    background: #ff4444;
-}
-
 #cartItems div {
     padding: 12px;
     border-bottom: 1px solid #eee;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-}
-
-.cart-item-title {
-    flex: 2;
-}
-
-.cart-item-price {
-    flex: 1;
-    text-align: center;
+    gap: 10px;
 }
 
 .cart-item-qty {
     display: flex;
     gap: 10px;
     align-items: center;
-    flex: 1;
-    justify-content: center;
 }
 
 .cart-item-qty button {
@@ -383,27 +372,6 @@ body {
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 5px;
-    font-weight: bold;
-}
-
-.cart-item-qty button:hover {
-    background: #ccc;
-}
-
-.cart-item-total {
-    flex: 1;
-    text-align: right;
-    font-weight: 600;
-}
-
-.remove-item-btn {
-    background: #ff6b6b;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    margin-left: 10px;
 }
 
 #cartTotal {
@@ -444,16 +412,5 @@ body {
     .products-grid {
         grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
         gap: 15px;
-    }
-    .header-actions {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .cart-modal .modal-content {
-        padding: 15px;
-    }
-    #cartItems div {
-        flex-wrap: wrap;
-        gap: 8px;
     }
 }
