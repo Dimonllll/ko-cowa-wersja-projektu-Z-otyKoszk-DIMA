@@ -812,36 +812,41 @@
         });
     });
 
-    // ---------- CYBER MODE (poprawiony) ----------
-    const cyberModeBtn = document.getElementById('cyberModeBtn');
-    let cyberModeActive = localStorage.getItem('cyberMode') === 'true';
-    function setCyberMode(active) {
-        if (active) {
-            body.classList.add('cyber-mode');
-            if (body.classList.contains('light-theme')) body.classList.remove('light-theme');
-            if (cyberModeBtn) cyberModeBtn.innerHTML = '⚡ Cyber Mode ON';
-        } else {
-            body.classList.remove('cyber-mode');
-            if (cyberModeBtn) cyberModeBtn.innerHTML = '💠 Cyber Mode';
-        }
-        localStorage.setItem('cyberMode', active);
-    }
-    if (cyberModeBtn) {
-        cyberModeBtn.addEventListener('click', () => setCyberMode(!cyberModeActive));
-    }
-    setCyberMode(cyberModeActive);
+    
+    // ---------- CYBER MODE ----------
+const cyberModeBtn = document.getElementById('cyberModeBtn');
+let cyberModeActive = localStorage.getItem('cyberMode') === 'true';
 
-    function startScrollAnimations() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.2 });
-        document.querySelectorAll('.animate-on-load, .product-card').forEach(el => observer.observe(el));
+function setCyberMode(active) {
+    cyberModeActive = active; 
+    if (active) {
+        body.classList.add('cyber-mode');
+        if (body.classList.contains('light-theme')) body.classList.remove('light-theme');
+        if (cyberModeBtn) cyberModeBtn.innerHTML = '⚡ Cyber Mode ON';
+    } else {
+        body.classList.remove('cyber-mode');
+        if (cyberModeBtn) cyberModeBtn.innerHTML = '💠 Cyber Mode';
     }
+    localStorage.setItem('cyberMode', active);
+}
+
+if (cyberModeBtn) {
+    cyberModeBtn.addEventListener('click', () => setCyberMode(!cyberModeActive));
+}
+setCyberMode(cyberModeActive);
+
+function startScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.animate-on-load, .product-card').forEach(el => observer.observe(el));
+}
+
 
     function init() {
         loadProductsFromStorage();
