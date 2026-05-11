@@ -1,3 +1,4 @@
+/* ===== RESET I PODSTAWY ===== */
 * {
     margin: 0;
     padding: 0;
@@ -47,6 +48,7 @@ body {
     padding: 0 24px;
 }
 
+/* ===== HEADER (sticky) ===== */
 .site-header {
     background: rgba(90, 24, 154, 0.2);
     backdrop-filter: blur(12px);
@@ -199,12 +201,13 @@ body {
     transform: scale(1.02);
 }
 
+/* ===== STICKY PANEL KATEGORII (naprawiony) ===== */
 .category-nav {
     background: rgba(90, 24, 154, 0.15);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--yellow-bright);
     position: sticky;
-    top: 60px;
+    top: 78px; /* wysokość headera + mały margines */
     z-index: 99;
     padding: 12px 0;
 }
@@ -237,6 +240,7 @@ body {
     opacity: 1;
 }
 
+/* ===== BANER ===== */
 .hero-full {
     position: relative;
     width: 100%;
@@ -260,6 +264,7 @@ body {
     z-index: 1;
 }
 
+/* ===== ANIMACJE ===== */
 .animate-on-load {
     opacity: 0;
     transform: translateY(20px);
@@ -280,6 +285,7 @@ body {
     transform: translateY(0);
 }
 
+/* ===== SEKCJA TYTUŁÓW ===== */
 .section-title {
     font-size: 32px;
     margin-bottom: 36px;
@@ -300,6 +306,7 @@ body {
     box-shadow: 0 0 15px var(--yellow-bright);
 }
 
+/* ===== PRODUKTY ===== */
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -429,6 +436,7 @@ body {
     color: var(--purple-deep);
 }
 
+/* ===== PŁATNOŚCI I ADRES ===== */
 .payment-section {
     background: var(--glass-bg);
     backdrop-filter: blur(12px);
@@ -543,6 +551,7 @@ body {
     color: var(--purple-deep);
 }
 
+/* ===== MODALE ===== */
 .modal {
     display: none;
     position: fixed;
@@ -613,6 +622,7 @@ body {
     font-size: 14px;
 }
 
+/* ===== TOASTY ===== */
 .toast-container {
     position: fixed;
     bottom: 20px;
@@ -648,91 +658,7 @@ body {
     to { opacity: 0; transform: translateX(100%); }
 }
 
-.product-card,
-.payment-section,
-.modal-content,
-.toast {
-    backdrop-filter: blur(16px);
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 10px 30px var(--glass-shadow), 0 0 15px rgba(90,24,154,0.2);
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.product-card:hover {
-    backdrop-filter: blur(20px);
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 20px 40px var(--glass-shadow), 0 0 25px var(--yellow-bright);
-    transform: translateY(-8px);
-}
-
-body.cyber-mode {
-    --purple-deep: #00ffff;
-    --yellow-bright: #ff00cc;
-    --glass-bg: rgba(0, 255, 255, 0.15);
-    --glass-border: rgba(0, 255, 255, 0.5);
-    --glass-shadow: rgba(0, 255, 255, 0.4);
-    --text-light: #00ffff;
-    animation: cyberBackground 4s ease infinite;
-}
-@keyframes cyberBackground {
-    0% { background: linear-gradient(135deg, #0a0f1a, #0f0a1a); }
-    50% { background: linear-gradient(135deg, #0f0a1a, #0a0f1a); }
-    100% { background: linear-gradient(135deg, #0a0f1a, #0f0a1a); }
-}
-
-body.cyber-mode .product-card::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, #ff00cc, #00ffff, #ff00cc);
-    background-size: 400% 400%;
-    z-index: -1;
-    filter: blur(8px);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    border-radius: 30px;
-}
-body.cyber-mode .product-card:hover::before {
-    opacity: 0.7;
-    animation: cyberPulse 1.5s ease infinite;
-}
-@keyframes cyberPulse {
-    0% { background-position: 0% 50%; opacity: 0.5; }
-    50% { background-position: 100% 50%; opacity: 0.9; }
-    100% { background-position: 0% 50%; opacity: 0.5; }
-}
-
-body.cyber-mode .hero-full::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #ff00cc, #00ffff, transparent);
-    animation: cyberRun 2s linear infinite;
-    z-index: 5;
-}
-@keyframes cyberRun {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
-body.cyber-mode .btn-add,
-body.cyber-mode .pay-button {
-    animation: cyberFlicker 1.5s infinite;
-    border-color: #ff00cc;
-}
-@keyframes cyberFlicker {
-    0%, 100% { box-shadow: 0 0 5px #ff00cc, 0 0 10px #00ffff; }
-    50% { box-shadow: 0 0 15px #ff00cc, 0 0 20px #00ffff; }
-}
-
-/* PANELE BOCZNE */
+/* ===== PANELE BOCZNE (KOSZYK, ULUBIONE) ===== */
 .cart-sidebar, .favorites-sidebar {
     position: fixed;
     top: 0;
@@ -905,6 +831,7 @@ body.cyber-mode .pay-button {
     visibility: visible;
 }
 
+/* ===== ADMIN MODAL ===== */
 .admin-modal {
     display: none;
     position: fixed;
@@ -1068,6 +995,7 @@ body.cyber-mode .pay-button {
     visibility: visible;
 }
 
+/* ===== FOOTER ===== */
 .site-footer {
     background: rgba(90, 24, 154, 0.2);
     backdrop-filter: blur(12px);
@@ -1111,13 +1039,95 @@ body.cyber-mode .pay-button {
     color: var(--yellow-bright);
 }
 
+/* ===== CYBER MODE (poprawiony) ===== */
+body.cyber-mode {
+    --purple-deep: #00ffff;
+    --yellow-bright: #ff00cc;
+    --glass-bg: rgba(0, 255, 255, 0.15);
+    --glass-border: rgba(0, 255, 255, 0.5);
+    --glass-shadow: rgba(0, 255, 255, 0.4);
+    --text-light: #00ffff;
+    animation: cyberBackground 4s ease infinite;
+}
+@keyframes cyberBackground {
+    0% { background: linear-gradient(135deg, #0a0f1a, #0f0a1a); }
+    50% { background: linear-gradient(135deg, #0f0a1a, #0a0f1a); }
+    100% { background: linear-gradient(135deg, #0a0f1a, #0f0a1a); }
+}
+
+body.cyber-mode .product-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff00cc, #00ffff, #ff00cc);
+    background-size: 400% 400%;
+    z-index: -1;
+    filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 30px;
+}
+body.cyber-mode .product-card:hover::before {
+    opacity: 0.7;
+    animation: cyberPulse 1.5s ease infinite;
+}
+@keyframes cyberPulse {
+    0% { background-position: 0% 50%; opacity: 0.5; }
+    50% { background-position: 100% 50%; opacity: 0.9; }
+    100% { background-position: 0% 50%; opacity: 0.5; }
+}
+
+body.cyber-mode .hero-full::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #ff00cc, #00ffff, transparent);
+    animation: cyberRun 2s linear infinite;
+    z-index: 5;
+}
+@keyframes cyberRun {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+body.cyber-mode .btn-add,
+body.cyber-mode .pay-button {
+    animation: cyberFlicker 1.5s infinite;
+    border-color: #ff00cc;
+}
+@keyframes cyberFlicker {
+    0%, 100% { box-shadow: 0 0 5px #ff00cc, 0 0 10px #00ffff; }
+    50% { box-shadow: 0 0 15px #ff00cc, 0 0 20px #00ffff; }
+}
+
+/* ===== RESPONSYWNOŚĆ ===== */
 @media (max-width: 1024px) {
-    .greeting-btn { padding: 16px 40px; font-size: 20px; }
+    .category-nav {
+        top: 70px;
+    }
 }
 @media (max-width: 768px) {
-    .greeting-btn { margin-top: 30px; padding: 14px 30px; font-size: 18px; }
     .hero-full { height: 70vh; }
     .cart-sidebar, .favorites-sidebar { width: 100%; right: -100%; }
     .admin-modal-content { width: 95%; padding: 20px; }
-    .category-nav { top: 80px; }
+    .category-nav {
+        top: 110px;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    .category-list {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+    .category-list li {
+        display: inline-block;
+    }
 }
