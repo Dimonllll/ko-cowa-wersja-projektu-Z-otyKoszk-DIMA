@@ -2,114 +2,126 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>ZłotyKoszyk - Sklep internetowy</title>
-    <link rel="stylesheet" href="d.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts dla ładniejszego wyglądu -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (darmowe ikony) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-<div class="sticky-header">
-    <div class="container">
-        <div class="header-row">
-            <div class="logo">
-                <h1>ZłotyKoszyk</h1>
-            </div>
-            <div class="search-bar">
-                <input type="text" placeholder="Szukaj produktów..." id="searchInput">
-                <button id="searchBtn">🔍</button>
-            </div>
-            <div class="header-actions">
-                <div id="authSection">
-                    <button id="loginBtn" class="action-btn">👤 Zaloguj</button>
-                    <button id="registerBtn" class="action-btn">📝 Rejestracja</button>
+    <!-- ==================== PRZYKLEJONA NAGŁÓWEK (STICKY) ==================== -->
+    <div class="sticky-header">
+        <div class="container">
+            <div class="header-row">
+                <div class="logo">
+                    <h1>ZłotyKoszyk</h1>
                 </div>
-                <div id="userPanel" style="display: none;">
-                    <span id="userNameDisplay"></span>
-                    <button id="logoutBtn" class="action-btn">🚪 Wyloguj</button>
+                <div class="search-bar">
+                    <input type="text" placeholder="Szukaj produktów..." id="searchInput">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
                 </div>
-                <button id="cartBtn" class="action-btn">🛒 Koszyk <span id="cartCount">0</span></button>
-                <button id="favoritesBtn" class="action-btn">❤️ Ulubione</button>
+                <div class="header-actions">
+                    <div id="authSection">
+                        <button id="loginBtn" class="action-btn"><i class="fas fa-user"></i> Zaloguj</button>
+                        <button id="registerBtn" class="action-btn"><i class="fas fa-user-plus"></i> Rejestracja</button>
+                    </div>
+                    <div id="userPanel" style="display: none;">
+                        <span id="userNameDisplay"></span>
+                        <button id="logoutBtn" class="action-btn"><i class="fas fa-sign-out-alt"></i> Wyloguj</button>
+                    </div>
+                    <button id="cartBtn" class="action-btn"><i class="fas fa-shopping-cart"></i> Koszyk <span id="cartCount">0</span></button>
+                    <button id="favoritesBtn" class="action-btn"><i class="fas fa-heart"></i> Ulubione</button>
+                </div>
+            </div>
+            <div class="category-row" id="categoryRow">
+                <a href="#" class="category-link" data-cat="all">WSZYSTKIE</a>
+                <a href="#" class="category-link" data-cat="moda">MODA</a>
+                <a href="#" class="category-link" data-cat="elektronika">ELEKTRONIKA</a>
+                <a href="#" class="category-link" data-cat="uroda">URODA</a>
+                <a href="#" class="category-link" data-cat="bizuteria">BIŻUTERIA</a>
+                <a href="#" class="category-link" data-cat="dom">DOM</a>
+                <a href="#" class="category-link" data-cat="sport">SPORT</a>
+            </div>
+            <!-- Cyber Mode ON (dekoracyjny) -->
+            <div class="cyber-mode">Cyber Mode ON</div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL LOGOWANIA / REJESTRACJI ==================== -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="loginForm">
+                <h2>Logowanie</h2>
+                <input type="email" id="loginEmail" placeholder="Email">
+                <input type="password" id="loginPassword" placeholder="Hasło">
+                <button id="submitLogin">Zaloguj</button>
+                <p>Nie masz konta? <a href="#" id="switchToRegister">Zarejestruj się</a></p>
+            </div>
+            <div id="registerForm" style="display:none;">
+                <h2>Rejestracja</h2>
+                <input type="text" id="regName" placeholder="Imię i nazwisko">
+                <input type="email" id="regEmail" placeholder="Email">
+                <input type="password" id="regPassword" placeholder="Hasło">
+                <input type="text" id="regAdminCode" placeholder="Kod admina (opcjonalnie)">
+                <button id="submitRegister">Zarejestruj</button>
+                <p>Masz już konto? <a href="#" id="switchToLogin">Zaloguj się</a></p>
             </div>
         </div>
-        <div class="category-row" id="categoryRow">
-            <a href="#" class="category-link" data-cat="all">WSZYSTKIE</a>
-            <a href="#" class="category-link" data-cat="moda">MODA</a>
-            <a href="#" class="category-link" data-cat="elektronika">ELEKTRONIKA</a>
-            <a href="#" class="category-link" data-cat="uroda">URODA</a>
-            <a href="#" class="category-link" data-cat="bizuteria">BIŻUTERIA</a>
-            <a href="#" class="category-link" data-cat="dom">DOM</a>
-            <a href="#" class="category-link" data-cat="sport">SPORT</a>
-        </div>
-        <div class="cyber-mode">⚡ Cyber Mode ON</div>
     </div>
-</div>
 
-<div id="authModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <div id="loginForm">
-            <h2>Logowanie</h2>
-            <input type="email" id="loginEmail" placeholder="Email">
-            <input type="password" id="loginPassword" placeholder="Hasło">
-            <button id="submitLogin">Zaloguj</button>
-            <p>Nie masz konta? <a href="#" id="switchToRegister">Zarejestruj się</a></p>
-        </div>
-        <div id="registerForm" style="display:none;">
-            <h2>Rejestracja</h2>
-            <input type="text" id="regName" placeholder="Imię i nazwisko">
-            <input type="email" id="regEmail" placeholder="Email">
-            <input type="password" id="regPassword" placeholder="Hasło">
-            <input type="text" id="regAdminCode" placeholder="Kod admina (opcjonalnie)">
-            <button id="submitRegister">Zarejestruj</button>
-            <p>Masz już konto? <a href="#" id="switchToLogin">Zaloguj się</a></p>
+    <!-- ==================== MODAL KOSZYKA ==================== -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content cart-modal">
+            <span class="close-modal">&times;</span>
+            <h2>Twój koszyk</h2>
+            <div id="cartItems"></div>
+            <div id="cartTotal">Łącznie: 0 zł</div>
+            <button id="checkoutBtn">Przejdź do płatności</button>
         </div>
     </div>
-</div>
 
-<div id="cartModal" class="modal">
-    <div class="modal-content cart-modal">
-        <span class="close-modal">&times;</span>
-        <h2>Twój koszyk</h2>
-        <div id="cartItems"></div>
-        <div id="cartTotal">Łącznie: 0 zł</div>
-        <button id="checkoutBtn">Przejdź do płatności</button>
-    </div>
-</div>
-
-<div id="favoritesModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <h2>Ulubione</h2>
-        <div id="favoritesItems"></div>
-    </div>
-</div>
-
-<div id="adminPanel" class="modal admin-modal">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <h2>Panel Administratora</h2>
-        <div class="admin-tabs">
-            <button class="admin-tab-btn active" data-tab="users">Użytkownicy</button>
-            <button class="admin-tab-btn" data-tab="products">Zarządzanie produktami</button>
-        </div>
-        <div id="adminUsersTab" class="admin-tab-content active">
-            <h3>Lista użytkowników</h3>
-            <div id="usersList"></div>
-        </div>
-        <div id="adminProductsTab" class="admin-tab-content">
-            <h3>Produkty</h3>
-            <button id="addProductBtn">+ Dodaj produkt</button>
-            <div id="productsListAdmin"></div>
+    <!-- ==================== MODAL ULUBIONYCH ==================== -->
+    <div id="favoritesModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Ulubione</h2>
+            <div id="favoritesItems"></div>
         </div>
     </div>
-</div>
 
-<div class="main-content container">
-    <div id="productsContainer" class="products-grid"></div>
-</div>
+    <!-- ==================== PANEL ADMINISTRATORA (tylko dla admina) ==================== -->
+    <div id="adminPanel" class="modal admin-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Panel Administratora</h2>
+            <div class="admin-tabs">
+                <button class="admin-tab-btn active" data-tab="users">Użytkownicy</button>
+                <button class="admin-tab-btn" data-tab="products">Zarządzanie produktami</button>
+            </div>
+            <div id="adminUsersTab" class="admin-tab-content active">
+                <h3>Lista użytkowników</h3>
+                <div id="usersList"></div>
+            </div>
+            <div id="adminProductsTab" class="admin-tab-content">
+                <h3>Produkty</h3>
+                <button id="addProductBtn">+ Dodaj produkt</button>
+                <div id="productsListAdmin"></div>
+            </div>
+        </div>
+    </div>
 
-<div id="noResults" class="container" style="display:none; text-align:center;">Brak produktów w tej kategorii.</div>
+    <!-- ==================== GŁÓWNA TREŚĆ (PRODUKTY) ==================== -->
+    <div class="main-content container">
+        <div id="productsContainer" class="products-grid"></div>
+    </div>
 
-<script src="z.js"></script>
+    <!-- Dodatkowy div na informacje o braku wyników -->
+    <div id="noResults" class="container" style="display:none; text-align:center;">Brak produktów w tej kategorii.</div>
+
+    <script src="script.js"></script>
 </body>
 </html>
